@@ -6,6 +6,14 @@ const PORT = 5050;
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.evn' })
 
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); // Allow requests from all origins
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE'); // Allow specific HTTP methods
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow specific headers
+    next();
+  });
+
+
 app.get('/', (req, res) => {
     res.status(200).send("This is from root");
 });
@@ -44,6 +52,8 @@ app.get('/api/bestselledwatches', async (req, res) => {
         await client.end(); // Close the connection
     }
 });
+
+
 
 
 
