@@ -32,7 +32,7 @@ app.get('/table', async (req, res) => {
 });
 
 
-app.get('/api/users', async (req, res) => {
+app.get('/api/watches', async (req, res) => {
     const client = db.getClient(); // Get client instance
     try {
         await client.connect(); // Connect to the database

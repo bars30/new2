@@ -44,6 +44,15 @@ function getClient() {
     return client;
 }
 
+// client.query(`SELECT * FROM bestselledwatches`, (err, res)=>{
+//   if(!err){
+//     console.log(res.rows);
+//   } else {
+//     console.log(err.message);
+//   }
+//   client.end()
+// } )
+
 module.exports = {
     getClient
 };
