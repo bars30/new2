@@ -65,7 +65,18 @@ app.get('/rolex/datejust', async (req, res) => {
         await client.end(); // Close the connection
     }
 });
-
+app.get('/rolex/coll/datejust', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query('SELECT * FROM  rolexcollections');
+        res.json({ message: 'Data retrieval successful', watches: result.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
 
 
 
