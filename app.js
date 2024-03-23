@@ -69,7 +69,7 @@ app.get('/rolex/coll/datejust', async (req, res) => {
     const client = db.getClient(); // Get client instance
     try {
         await client.connect(); // Connect to the database
-        const result = await client.query('SELECT * FROM  rolexcollections');
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '1'`);
         const cont = await client.query('SELECT * FROM rolexcolldatejust');
         res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
     } catch (err) {
@@ -78,7 +78,19 @@ app.get('/rolex/coll/datejust', async (req, res) => {
         await client.end(); // Close the connection
     }
 });
-
+app.get('/rolex/coll/submariner', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '2'`);
+        const cont = await client.query('SELECT * FROM rolexcollsubmariner');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
 
 
 
