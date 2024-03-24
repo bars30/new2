@@ -161,6 +161,20 @@ app.get('/rolex/coll/yachtmaster', async (req, res) => {
     }
 });
 
+app.get('/rolex/coll/seadweller', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '8'`);
+        const cont = await client.query('SELECT * FROM rolexcollseadweller');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
 
 const port = process.env.PORT || 5050;
 
