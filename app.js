@@ -188,7 +188,77 @@ app.get('/rolex/coll/deepsea', async (req, res) => {
         await client.end(); // Close the connection
     }
 });
+// ------------------------
 
+app.get('/rolex/coll/airking', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '10'`);
+        const cont = await client.query('SELECT * FROM rolexcollairking');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
+app.get('/rolex/coll/explorer', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '11'`);
+        const cont = await client.query('SELECT * FROM rolexcollexplorer');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
+app.get('/rolex/coll/adydatejust', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '12'`);
+        const cont = await client.query('SELECT * FROM rolexcollladydatejust');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
+app.get('/rolex/coll/skydweller', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '13'`);
+        const cont = await client.query('SELECT * FROM rolexcollskydweller');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
+app.get('/rolex/coll/1908', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const result = await client.query(`SELECT * FROM  rolexcollections where id = '14'`);
+        const cont = await client.query('SELECT * FROM rolexcoll1908');
+        res.json({ message: 'Data retrieval successful', watches: result.rows, cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
 
 const port = process.env.PORT || 5050;
 
