@@ -260,6 +260,20 @@ app.get('/rolex/coll/1908', async (req, res) => {
     }
 });
 
+app.get('/patekphilippe/coll/grandcomplic', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const cont = await client.query('SELECT * FROM patekphilippegrandcoll');
+        res.json({ message: 'Data retrieval successful', cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
+
 const port = process.env.PORT || 5050;
 
 app.listen(port, (error) => {
