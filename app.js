@@ -286,6 +286,19 @@ app.get('/audemarspiguet/watches', async (req, res) => {
     }
 });
 
+app.get('/audemarspiguet/watches/royaloak', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        await client.connect(); // Connect to the database
+        const cont = await client.query('SELECT * FROM audemars_piguet_watches_royal_oak');
+        res.json({ message: 'Data retrieval successful', cont : cont.rows });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    } finally {
+        await client.end(); // Close the connection
+    }
+});
+
 
 const port = process.env.PORT || 5050;
 
