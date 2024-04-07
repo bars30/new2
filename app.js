@@ -432,6 +432,30 @@ app.get('/jaeger/polaris', async (req, res) => {
         await client.end(); // Close the connection
     }
 });
+app.use(express.json());
+
+app.post('/usersmessage', async (req, res) => {
+    const client = db.getClient(); // Get client instance
+    try {
+        const data = req.body;
+        const fulln = data.fulln;
+        const mail = data.mail;
+        const message = data.message;
+
+        // Execute the SQL query to insert data into the database
+        const cont = await client.query(`INSERT INTO usermessages (fullname, mail, message) VALUES ('${fulln}', '${mail}', '${message}')`);
+
+        // Send back a response indicating successful data insertion
+        res.json({ message: 'Data insertion successful', insertedData: { fullname: fulln, mail, message } });
+    } catch (err) {
+        // Handle errors
+        res.status(500).json({ message: err.message });
+    } finally {
+        // Close the database connection
+        await client.end();
+    }
+});
+
 
 const port = process.env.PORT || 5050;
 
