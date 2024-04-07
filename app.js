@@ -435,26 +435,42 @@ app.get('/jaeger/polaris', async (req, res) => {
 app.use(express.json());
 
 app.post('/usersmessage', async (req, res) => {
-    const client = db.getClient(); // Get client instance
     try {
         const data = req.body;
         const fulln = data.fulln;
         const mail = data.mail;
         const message = data.message;
 
-        // Execute the SQL query to insert data into the database
-        const cont = await client.query(`INSERT INTO usermessages (fullname, mail, message) VALUES ('${fulln}', '${mail}', '${message}')`);
+        // Ensure that the request body contains all required fields
+        if (!fulln || !mail || !message) {
+            return res.status(400).json({ message: 'Missing required fields' });
+        }
 
-        // Send back a response indicating successful data insertion
-        res.json({ message: 'Data insertion successful', insertedData: { fullname: fulln, mail, message } });
-    } catch (err) {
-        // Handle errors
-        res.status(500).json({ message: err.message });
-    } finally {
+        // Get a client instance
+        const client = db.getClient();
+
+        // Connect to the database
+        await client.connect();
+
+        // Execute the SQL query to insert data into the usermessages table
+        const queryText = 'INSERT INTO usermessages (fullname, mail, message) VALUES ($1, $2, $3) RETURNING *';
+        const values = [fulln, mail, message];
+        const result = await client.query(queryText, values);
+
         // Close the database connection
         await client.end();
+
+        // Send back a response indicating successful data insertion
+        res.status(201).json({ message: 'Data insertion successful', insertedData: result.rows[0] });
+    } catch (err) {
+        // Handle errors
+        console.error('Error inserting data:', err);
+        res.status(500).json({ message: 'An error occurred while inserting data' });
     }
 });
+
+
+
 
 
 const port = process.env.PORT || 5050;
